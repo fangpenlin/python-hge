@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "callback.h"
+#include "data_types.h"
 
 class PyHGE {
 private:
@@ -404,30 +405,30 @@ public:
         m_pHGE->Gfx_RenderLine(x1, y1, x2, y2, color, z);
     }
 
-    // TODO
-	virtual void Gfx_RenderTriple(const hgeTriple *triple) {
-       m_pHGE->Gfx_RenderTriple(triple);
+
+	virtual void Gfx_RenderTriple(const PyHgeTriple triple) {
+       m_pHGE->Gfx_RenderTriple(&triple);
     }
 
-    // TODO
-	virtual void Gfx_RenderQuad(const hgeQuad *quad) {
-    
+	virtual void Gfx_RenderQuad(const PyHgeQuad quad) {
+       m_pHGE->Gfx_RenderQuad(&quad); 
     }
 	
+    // TODO
     virtual hgeVertex*	CALL	Gfx_StartBatch(int prim_type, HTEXTURE tex, int blend, int *max_prim) {
         return NULL;
     }
 
-	virtual void		CALL	Gfx_FinishBatch(int nprim) {
-        
+	virtual void Gfx_FinishBatch(int nprim) {
+        m_pHGE->Gfx_FinishBatch(nprim); 
     }
 
-	virtual void		CALL	Gfx_SetClipping(int x=0, int y=0, int w=0, int h=0) {
-    
+	virtual void Gfx_SetClipping(int x=0, int y=0, int w=0, int h=0) {
+        m_pHGE->Gfx_SetClipping(x, y, w, h); 
     }
 
-	virtual void		CALL	Gfx_SetTransform(float x=0, float y=0, float dx=0, float dy=0, float rot=0, float hscale=0, float vscale=0) {
-    
+	virtual void Gfx_SetTransform(float x=0, float y=0, float dx=0, float dy=0, float rot=0, float hscale=0, float vscale=0) {
+        m_pHGE->Gfx_SetTransform(x, y, dx, dy, rot, hscale, vscale); 
     }
 
 	virtual HTARGET		CALL	Target_Create(int width, int height, bool zbuffer) {

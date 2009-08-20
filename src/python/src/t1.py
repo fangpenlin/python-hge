@@ -25,8 +25,4 @@ def main():
     hge.Release()
 	
 if __name__ == '__main__':
-    #main()
-    v = _hge.hgeVertex(1, 2, 3, 0, 1, 2)
-    print v.x
-    print v.y
-    print v.x
+    main()

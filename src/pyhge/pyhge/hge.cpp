@@ -80,6 +80,16 @@ void exposeHge() {
         .def("Input_GetKey", &PyHGE::Input_GetKey)
         .def("Input_GetChar", &PyHGE::Input_GetChar)
 
+        .def("Gfx_BeginScene", &PyHGE::Gfx_BeginScene)
+        .def("Gfx_EndScene", &PyHGE::Gfx_EndScene)
+        .def("Gfx_Clear", &PyHGE::Gfx_Clear)
+        .def("Gfx_RenderLine", &PyHGE::Gfx_RenderLine)
+        .def("Gfx_RenderTriple", &PyHGE::Gfx_RenderTriple)
+        .def("Gfx_RenderQuad", &PyHGE::Gfx_RenderQuad)
+        .def("Gfx_FinishBatch", &PyHGE::Gfx_RenderQuad)
+        .def("Gfx_SetClipping", &PyHGE::Gfx_RenderQuad)
+        .def("Gfx_SetTransform", &PyHGE::Gfx_RenderQuad)
+
         .def("Texture_Create", &PyHGE::Texture_Create)
         .def("Texture_Load", &PyHGE::Texture_Load)
         .def("Texture_Free", &PyHGE::Texture_Free)

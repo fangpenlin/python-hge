@@ -4,6 +4,16 @@ void exposeConstants() {
     using namespace boost::python;
     
     scope().attr("HGE_VERSION") = 0x180;
+
+    scope().attr("BLEND_COLORADD") = BLEND_COLORADD;
+    scope().attr("BLEND_COLORMUL") = BLEND_COLORMUL;
+    scope().attr("BLEND_ALPHABLEND") = BLEND_ALPHABLEND;
+    scope().attr("BLEND_ALPHAADD") = BLEND_ALPHAADD;
+    scope().attr("BLEND_ZWRITE") = BLEND_ZWRITE;
+    scope().attr("BLEND_NOZWRITE") = BLEND_NOZWRITE;
+
+    scope().attr("BLEND_DEFAULT") = BLEND_DEFAULT;
+    scope().attr("BLEND_DEFAULT_Z") = BLEND_DEFAULT_Z;
     
     scope().attr("HGEK_LBUTTON") = 0x01;
     scope().attr("HGEK_RBUTTON") = 0x02;

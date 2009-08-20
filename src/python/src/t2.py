@@ -8,16 +8,26 @@ import _hge
 def main():
     hge = _hge.HGE(_hge.HGE_VERSION)
     
-    #quad = _hge.hgeQuad()
+    quad = None
     
     def frameFunc():
         if hge.Input_GetKeyState(_hge.HGEK_ESCAPE):
-            return True;
+            return True
+        if hge.Input_GetKeyState(_hge.HGEK_UP):
+            for i in range(4):
+                quad.getV(i).y -= 0.1
+        if hge.Input_GetKeyState(_hge.HGEK_DOWN):
+            for i in range(4):
+                quad.getV(i).y += 0.1
+        if hge.Input_GetKeyState(_hge.HGEK_LEFT):
+            for i in range(4):
+                quad.getV(i).x -= 0.1
+        if hge.Input_GetKeyState(_hge.HGEK_RIGHT):
+            for i in range(4):
+                quad.getV(i).x += 0.1
         return False
     
     hge.System_SetStateString(_hge.HGE_LOGFILE, "t2.log");
-    
-    quad = None
     
     def renderFunc():
         # Begin rendering quads.

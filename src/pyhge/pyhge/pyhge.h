@@ -1,8 +1,13 @@
+#ifndef PYHGE_H_INCLUDED
+#define PYHGE_H_INCLUDED
+
 #include "stdafx.h"
+#include "callback.h"
 
 class PyHGE {
 private:
     HGE *m_pHGE;
+    Callback m_Callback;
 public:
     /**
         @brief init hge
@@ -20,6 +25,7 @@ public:
 
 	virtual	void Release() {
         m_pHGE->Release();
+        m_pHGE = NULL;
     }
 
 	virtual bool System_Initiate() {
@@ -31,6 +37,7 @@ public:
     }
 
 	virtual bool System_Start() {
+        Callback::m_pCallback = &m_Callback;
         return m_pHGE->System_Start();
     }
 
@@ -50,24 +57,50 @@ public:
         m_pHGE->System_Snapshot(filename);
     }
 
-	virtual void System_SetStateBool(hgeBoolState state, bool value) {
-        m_pHGE->System_SetState(state, value);
+	virtual void System_SetStateBool(int state, bool value) {
+        m_pHGE->System_SetState(static_cast<hgeBoolState>(state), value);
     }
 
-	virtual void System_SetStateFunc(hgeFuncState state, hgeCallback value) {
-        m_pHGE->System_SetState(state, value);
+    virtual void System_SetStateFunc(int state, boost::python::object value) {
+        hgeFuncState funcState = static_cast<hgeFuncState>(state);
+        switch(funcState) {
+            case HGE_FRAMEFUNC:
+                m_Callback.m_FrameFunc = value;
+                m_pHGE->System_SetState(funcState, &Callback::frameFunc);
+                break;
+            case HGE_RENDERFUNC:
+                m_Callback.m_RenderFunc = value;
+                m_pHGE->System_SetState(funcState, &Callback::renderFunc);
+                break;
+            case HGE_FOCUSLOSTFUNC:
+                m_Callback.m_FocusLostFunc = value;
+                m_pHGE->System_SetState(funcState, &Callback::focusLostFunc);
+                break;
+            case HGE_FOCUSGAINFUNC:
+                m_Callback.m_FocusGainFunc = value;
+                m_pHGE->System_SetState(funcState, &Callback::focusGainFunc);
+                break;
+            case HGE_GFXRESTOREFUNC:
+                m_Callback.m_GfxRestoreFunc = value;
+                m_pHGE->System_SetState(funcState, &Callback::gfxRestoreFunc);
+                break;
+            case HGE_EXITFUNC:
+                m_Callback.m_ExitFunc = value;
+                m_pHGE->System_SetState(funcState, &Callback::exitFunc);
+                break;
+        }
     }
 
-	virtual void System_SetStateHwnd(hgeHwndState state, HWND value) {
-        m_pHGE->System_SetState(state, value);
+	virtual void System_SetStateHwnd(int state, HWND value) {
+        m_pHGE->System_SetState(static_cast<hgeHwndState>(state), value);
     }
 
-	virtual void System_SetStateInt(hgeIntState state, int value) {
-        m_pHGE->System_SetState(state, value);
+	virtual void System_SetStateInt(int state, int value) {
+        m_pHGE->System_SetState(static_cast<hgeIntState>(state), value);
     }
 
-	virtual void System_SetStateString(hgeStringState state, const char *value) {
-        m_pHGE->System_SetState(state, value);
+	virtual void System_SetStateString(int state, const char *value) {
+        m_pHGE->System_SetState(static_cast<hgeStringState>(state), value);
     }
 
 	virtual bool System_GetStateBool(hgeBoolState   state) {
@@ -90,284 +123,294 @@ public:
         return NULL;
     }
 	
-	virtual void*		CALL	Resource_Load(const char *filename, DWORD *size=0) {
+	virtual void*		Resource_Load(const char *filename, DWORD *size=0) {
         return NULL;
     }
 
-	virtual void		CALL	Resource_Free(void *res) {
+	virtual void		Resource_Free(void *res) {
     }
 
-	virtual bool		CALL	Resource_AttachPack(const char *filename, const char *password=0) {
+	virtual bool		Resource_AttachPack(const char *filename, const char *password=0) {
         return false;
     }
 
-	virtual void		CALL	Resource_RemovePack(const char *filename) {
+	virtual void		Resource_RemovePack(const char *filename) {
     }
 
-	virtual void		CALL	Resource_RemoveAllPacks() {
+	virtual void		Resource_RemoveAllPacks() {
 
     }
 
-	virtual char*		CALL	Resource_MakePath(const char *filename=0) {
+	virtual char*		Resource_MakePath(const char *filename=0) {
         return NULL;
     }
 
-	virtual char*		CALL	Resource_EnumFiles(const char *wildcard=0) {
+	virtual char*		Resource_EnumFiles(const char *wildcard=0) {
         return NULL;
     }
 
-	virtual char*		CALL	Resource_EnumFolders(const char *wildcard=0) {
+	virtual char*		Resource_EnumFolders(const char *wildcard=0) {
         return NULL;
     }
 
-	virtual	void		CALL	Ini_SetInt(const char *section, const char *name, int value) {
+	virtual	void Ini_SetInt(const char *section, const char *name, int value) {
+        m_pHGE->Ini_SetInt(section, name, value);
     }
 
-	virtual	int			CALL	Ini_GetInt(const char *section, const char *name, int def_val) {
-        return 0;
+	virtual	int	Ini_GetInt(const char *section, const char *name, int def_val) {
+        return m_pHGE->Ini_GetInt(section, name, def_val);
     }
 
-	virtual	void		CALL	Ini_SetFloat(const char *section, const char *name, float value) {
-
+	virtual	void Ini_SetFloat(const char *section, const char *name, float value) {
+        m_pHGE->Ini_SetFloat(section, name, value);
     }
 
-	virtual	float		CALL	Ini_GetFloat(const char *section, const char *name, float def_val) {
-        return 0;
+	virtual	float Ini_GetFloat(const char *section, const char *name, float def_val) {
+        return m_pHGE->Ini_GetFloat(section, name, def_val);
     }
 
-	virtual	void		CALL	Ini_SetString(const char *section, const char *name, const char *value) {
-
+	virtual	void Ini_SetString(const char *section, const char *name, const char *value) {
+        return m_pHGE->Ini_SetString(section, name, value);
     }
 
-	virtual	char*		CALL	Ini_GetString(const char *section, const char *name, const char *def_val) {
-        return NULL;
+    virtual	boost::python::str Ini_GetString(const char *section, const char *name, const char *def_val) {
+        return boost::python::str(static_cast<const char*>(m_pHGE->Ini_GetString(section, name, def_val)));
     }
 
-	virtual void		CALL	Random_Seed(int seed=0) {
-
+	virtual void Random_Seed(int seed=0) {
+        m_pHGE->Random_Seed(seed);
     }
 
-	virtual int			CALL	Random_Int(int min, int max) {
-        return 0;
+	virtual int Random_Int(int min, int max) {
+        return m_pHGE->Random_Int(min, max);
     }
 
-	virtual float		CALL	Random_Float(float min, float max) {
-        return 0;
+	virtual float Random_Float(float min, float max) {
+        return m_pHGE->Random_Float(min, max);
     }
 
-	virtual float		CALL	Timer_GetTime() {
-        return 0;
+	virtual float Timer_GetTime() {
+        return m_pHGE->Timer_GetTime();
     }
 
-	virtual float		CALL	Timer_GetDelta() {
-        return 0;
+	virtual float Timer_GetDelta() {
+        return m_pHGE->Timer_GetDelta();
     }
 
-	virtual int			CALL	Timer_GetFPS() {
-        return 0;
+	virtual int Timer_GetFPS() {
+        return m_pHGE->Timer_GetFPS();
     }
 
-	virtual HEFFECT		CALL	Effect_Load(const char *filename, DWORD size=0) {
-        return 0;
+	virtual HEFFECT Effect_Load(const char *filename, DWORD size=0) {
+        return m_pHGE->Effect_Load(filename, size);
     }
 
-	virtual void		CALL	Effect_Free(HEFFECT eff) {
-
+	virtual void Effect_Free(HEFFECT eff) {
+        m_pHGE->Effect_Free(eff);
     }
 
-	virtual HCHANNEL	CALL 	Effect_Play(HEFFECT eff) {
-        return 0;
+	virtual HCHANNEL Effect_Play(HEFFECT eff) {
+        return m_pHGE->Effect_Play(eff);
     }
 
-	virtual HCHANNEL	CALL	Effect_PlayEx(HEFFECT eff, int volume=100, int pan=0, float pitch=1.0f, bool loop=false) {
-        return 0;
+	virtual HCHANNEL Effect_PlayEx(HEFFECT eff, int volume=100, int pan=0, float pitch=1.0f, bool loop=false) {
+        return m_pHGE->Effect_PlayEx(eff, volume, pan, pitch, loop);
     }
 
-	virtual HMUSIC		CALL	Music_Load(const char *filename, DWORD size=0) {
-        return 0;
+	virtual HMUSIC Music_Load(const char *filename, DWORD size=0) {
+        return m_pHGE->Music_Load(filename, size);
     }
 
-	virtual void		CALL	Music_Free(HMUSIC mus) {
-
+	virtual void Music_Free(HMUSIC mus) {
+        m_pHGE->Music_Free(mus);
     }
 
-	virtual HCHANNEL	CALL	Music_Play(HMUSIC mus, bool loop, int volume = 100, int order = -1, int row = -1) {
-        return 0;
+	virtual HCHANNEL Music_Play(HMUSIC mus, bool loop, int volume = 100, int order = -1, int row = -1) {
+        return m_pHGE->Music_Play(mus, loop, volume, order, row);
     }
 
-	virtual void		CALL	Music_SetAmplification(HMUSIC music, int ampl) {
-
+	virtual void Music_SetAmplification(HMUSIC music, int ampl) {
+        m_pHGE->Music_SetAmplification(music, ampl);
     }
 
-	virtual int			CALL	Music_GetAmplification(HMUSIC music) {
-        return 0;
+	virtual int	Music_GetAmplification(HMUSIC music) {
+        return m_pHGE->Music_GetAmplification(music);
     }
 
-	virtual int			CALL	Music_GetLength(HMUSIC music) {
-        return 0;
+	virtual int	Music_GetLength(HMUSIC music) {
+        return m_pHGE->Music_GetLength(music);
     }
 
-	virtual void		CALL	Music_SetPos(HMUSIC music, int order, int row) {
-
+	virtual void Music_SetPos(HMUSIC music, int order, int row) {
+        m_pHGE->Music_SetPos(music, order, row);
     }
 
-	virtual bool		CALL	Music_GetPos(HMUSIC music, int *order, int *row) {
-        return false;
+    virtual boost::python::tuple Music_GetPos(HMUSIC music) {
+        int order;
+        int row;
+        bool result =  m_pHGE->Music_GetPos(music, &order, &row);
+        return boost::python::make_tuple(result, order, row);
     }
 
-	virtual void		CALL	Music_SetInstrVolume(HMUSIC music, int instr, int volume) {
-
+	virtual void Music_SetInstrVolume(HMUSIC music, int instr, int volume) {
+        m_pHGE->Music_SetInstrVolume(music, instr, volume);
     }
 
-	virtual int			CALL	Music_GetInstrVolume(HMUSIC music, int instr) {
-        return 0;
+	virtual int Music_GetInstrVolume(HMUSIC music, int instr) {
+        return m_pHGE->Music_GetInstrVolume(music, instr);
     }
 
-	virtual void		CALL	Music_SetChannelVolume(HMUSIC music, int channel, int volume) {
-        
+	virtual void Music_SetChannelVolume(HMUSIC music, int channel, int volume) {
+        m_pHGE->Music_SetChannelVolume(music, channel, volume);
     }
 
-	virtual int			CALL	Music_GetChannelVolume(HMUSIC music, int channel) {
-        return 0;
+	virtual int Music_GetChannelVolume(HMUSIC music, int channel) {
+        return m_pHGE->Music_GetChannelVolume(music, channel);
     }
 
-	virtual HSTREAM		CALL	Stream_Load(const char *filename, DWORD size=0) {
-        return 0;
+	virtual HSTREAM	Stream_Load(const char *filename, DWORD size=0) {
+        return m_pHGE->Stream_Load(filename, size);
     }
 
-	virtual void		CALL	Stream_Free(HSTREAM stream) {
-       
+	virtual void Stream_Free(HSTREAM stream) {
+       m_pHGE->Stream_Free(stream);
     }
 	
-    virtual HCHANNEL	CALL	Stream_Play(HSTREAM stream, bool loop, int volume = 100) {
-        return 0;
+    virtual HCHANNEL Stream_Play(HSTREAM stream, bool loop, int volume = 100) {
+        return m_pHGE->Stream_Play(stream, loop, volume);
     }
 
-	virtual void		CALL	Channel_SetPanning(HCHANNEL chn, int pan) {
-        
+	virtual void Channel_SetPanning(HCHANNEL chn, int pan) {
+        m_pHGE->Channel_SetPanning(chn, pan);
     }
 
-	virtual void		CALL 	Channel_SetVolume(HCHANNEL chn, int volume) {
-    
+	virtual void Channel_SetVolume(HCHANNEL chn, int volume) {
+        m_pHGE->Channel_SetVolume(chn, volume);
     }
 
-	virtual void		CALL 	Channel_SetPitch(HCHANNEL chn, float pitch) {
-    
+	virtual void Channel_SetPitch(HCHANNEL chn, float pitch) {
+        m_pHGE->Channel_SetPitch(chn, pitch);
     }
 
-	virtual void		CALL 	Channel_Pause(HCHANNEL chn) {
-    
+	virtual void Channel_Pause(HCHANNEL chn) {
+         m_pHGE->Channel_Pause(chn);
     }
 
-	virtual void		CALL 	Channel_Resume(HCHANNEL chn) {
-    
+	virtual void Channel_Resume(HCHANNEL chn) {
+        m_pHGE->Channel_Resume(chn);
     }
 
-	virtual void		CALL 	Channel_Stop(HCHANNEL chn) {
-    
+	virtual void Channel_Stop(HCHANNEL chn) {
+        m_pHGE->Channel_Stop(chn);
     }
 
-	virtual void		CALL 	Channel_PauseAll() {
-    
+	virtual void Channel_PauseAll() {
+        m_pHGE->Channel_PauseAll();
     }
 
-	virtual void		CALL 	Channel_ResumeAll() {
-    
+	virtual void Channel_ResumeAll() {
+        m_pHGE->Channel_ResumeAll();
     }
 
-	virtual void		CALL 	Channel_StopAll() {
-    
+	virtual void Channel_StopAll() {
+        m_pHGE->Channel_StopAll();
     }
 
-	virtual bool		CALL	Channel_IsPlaying(HCHANNEL chn) {
-        return false;
+	virtual bool Channel_IsPlaying(HCHANNEL chn) {
+        return m_pHGE->Channel_IsPlaying(chn);
     }
 
-	virtual float		CALL	Channel_GetLength(HCHANNEL chn) {
-        return 0;
+	virtual float Channel_GetLength(HCHANNEL chn) {
+        return m_pHGE->Channel_GetLength(chn);
     }
 
-	virtual float		CALL	Channel_GetPos(HCHANNEL chn) {
-        return 0;
+	virtual float Channel_GetPos(HCHANNEL chn) {
+        return m_pHGE->Channel_GetPos(chn);
     }
 	
-    virtual void		CALL	Channel_SetPos(HCHANNEL chn, float fSeconds) {
-    
+    virtual void Channel_SetPos(HCHANNEL chn, float fSeconds) {
+        m_pHGE->Channel_SetPos(chn, fSeconds);
     }
 
-	virtual void		CALL	Channel_SlideTo(HCHANNEL channel, float time, int volume, int pan = -101, float pitch = -1) {
-        
+	virtual void Channel_SlideTo(HCHANNEL channel, float time, int volume, int pan = -101, float pitch = -1) {
+        m_pHGE->Channel_SlideTo(channel, time, volume, pan, pitch);
     }
 
-	virtual bool		CALL	Channel_IsSliding(HCHANNEL channel) {
+	virtual bool Channel_IsSliding(HCHANNEL channel) {
+        return m_pHGE->Channel_IsSliding(channel);
+    }
+
+    virtual boost::python::tuple Input_GetMousePos() {
+        float x;
+        float y;
+        m_pHGE->Input_GetMousePos(&x, &y);
+        return boost::python::make_tuple(x, y);
+    }
+
+	virtual void Input_SetMousePos(float x, float y) {
+        m_pHGE->Input_SetMousePos(x, y);
+    }
+
+	virtual int Input_GetMouseWheel() {
+        return m_pHGE->Input_GetMouseWheel();
+    }
+
+	virtual bool Input_IsMouseOver() {
+        return m_pHGE->Input_IsMouseOver();
+    }
+
+	virtual bool Input_KeyDown(int key) {
+        return m_pHGE->Input_KeyDown(key);
+    }
+
+	virtual bool Input_KeyUp(int key) {
+        return m_pHGE->Input_KeyUp(key);
+    }
+
+	virtual bool Input_GetKeyState(int key) {
+        return m_pHGE->Input_GetKeyState(key);
+    }
+
+    virtual boost::python::str Input_GetKeyName(int key) {
+        return boost::python::str(static_cast<const char*>(m_pHGE->Input_GetKeyName(key)));
+    }
+
+	virtual int	Input_GetKey() {
+        return m_pHGE->Input_GetKey();
+    }
+
+	virtual int Input_GetChar() {
+        return m_pHGE->Input_GetChar();
+    }
+
+    // TODO
+	virtual bool Input_GetEvent(hgeInputEvent *event) {
         return false;
     }
 
-	virtual void		CALL	Input_GetMousePos(float *x, float *y) {
-    
+	virtual bool Gfx_BeginScene(HTARGET target=0) {
+        return m_pHGE->Gfx_BeginScene(target);
     }
 
-	virtual void		CALL	Input_SetMousePos(float x, float y) {
-    
+	virtual void Gfx_EndScene() {
+        m_pHGE->Gfx_EndScene();
     }
 
-	virtual int			CALL	Input_GetMouseWheel() {
-        return 0;
+	virtual void Gfx_Clear(DWORD color) {
+        m_pHGE->Gfx_Clear(color);
     }
 
-	virtual bool		CALL	Input_IsMouseOver() {
-        return false;
+	virtual void Gfx_RenderLine(float x1, float y1, float x2, float y2, DWORD color=0xFFFFFFFF, float z=0.5f) {
+        m_pHGE->Gfx_RenderLine(x1, y1, x2, y2, color, z);
     }
 
-	virtual bool		CALL	Input_KeyDown(int key) {
-        return false;
+    // TODO
+	virtual void Gfx_RenderTriple(const hgeTriple *triple) {
+       m_pHGE->Gfx_RenderTriple(triple);
     }
 
-	virtual bool		CALL	Input_KeyUp(int key) {
-        return false;
-    }
-
-	virtual bool		CALL	Input_GetKeyState(int key) {
-        return false;
-    }
-
-	virtual char*		CALL	Input_GetKeyName(int key) {
-        return NULL;
-    }
-
-	virtual int			CALL	Input_GetKey() {
-        return 0;
-    }
-
-	virtual int			CALL	Input_GetChar() {
-        return 0;
-    }
-
-	virtual bool		CALL	Input_GetEvent(hgeInputEvent *event) {
-        return false;
-    }
-
-	virtual bool		CALL	Gfx_BeginScene(HTARGET target=0) {
-        return false;
-    }
-
-	virtual void		CALL	Gfx_EndScene() {
-    
-    }
-
-	virtual void		CALL	Gfx_Clear(DWORD color) {
-    
-    }
-
-	virtual void		CALL	Gfx_RenderLine(float x1, float y1, float x2, float y2, DWORD color=0xFFFFFFFF, float z=0.5f) {
-    
-    }
-
-	virtual void		CALL	Gfx_RenderTriple(const hgeTriple *triple) {
-        
-    }
-
-	virtual void		CALL	Gfx_RenderQuad(const hgeQuad *quad) {
+    // TODO
+	virtual void Gfx_RenderQuad(const hgeQuad *quad) {
     
     }
 	
@@ -399,31 +442,35 @@ public:
         return 0;
     }
 
-	virtual HTEXTURE	CALL	Texture_Create(int width, int height) {
-        return 0;
+	virtual HTEXTURE Texture_Create(int width, int height) {
+        return m_pHGE->Texture_Create(width, height);
     }
 
-	virtual HTEXTURE	CALL	Texture_Load(const char *filename, DWORD size=0, bool bMipmap=false) {
-        return 0;
+	virtual HTEXTURE Texture_Load(const char *filename, DWORD size=0, bool bMipmap=false) {
+        return m_pHGE->Texture_Load(filename, size, bMipmap);
     }
 
-	virtual void		CALL	Texture_Free(HTEXTURE tex) {
-    
+	virtual void Texture_Free(HTEXTURE tex) {
+        m_pHGE->Texture_Free(tex);
     }
 
-	virtual int			CALL	Texture_GetWidth(HTEXTURE tex, bool bOriginal=false) {
-        return 0;
+	virtual int	Texture_GetWidth(HTEXTURE tex, bool bOriginal=false) {
+        return m_pHGE->Texture_GetWidth(tex, bOriginal);
     }
 
-	virtual int			CALL	Texture_GetHeight(HTEXTURE tex, bool bOriginal=false) {
-        return 0;
+	virtual int	Texture_GetHeight(HTEXTURE tex, bool bOriginal=false) {
+        return m_pHGE->Texture_GetWidth(tex, bOriginal);
     }
 
-	virtual DWORD*		CALL	Texture_Lock(HTEXTURE tex, bool bReadOnly=true, int left=0, int top=0, int width=0, int height=0) {
+    // TODO
+	virtual DWORD* Texture_Lock(HTEXTURE tex, bool bReadOnly=true, int left=0, int top=0, int width=0, int height=0) {
         return NULL;
     }
 
+    // TODO
 	virtual void		CALL	Texture_Unlock(HTEXTURE tex) {
     
     }
 };
+
+#endif // PYHGE_H_INCLUDED

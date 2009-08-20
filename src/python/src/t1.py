@@ -1,7 +1,7 @@
 import _hge
 
 def main():
-    hge = _hge.HGE(0x180)
+    hge = _hge.HGE(_hge.HGE_VERSION)
     
     def frameFunc():
         if hge.Input_GetKeyState(_hge.HGEK_ESCAPE):

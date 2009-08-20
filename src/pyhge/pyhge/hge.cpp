@@ -10,5 +10,6 @@ void exportHge() {
         .def("System_Shutdown", &PyHGE::System_Shutdown)
         .def("System_Start", &PyHGE::System_Start)
         .def("System_GetErrorMessage", &PyHGE::System_GetErrorMessage)
+        .def("System_SetStateBool", &PyHGE::System_SetStateBool)
     ;
 }

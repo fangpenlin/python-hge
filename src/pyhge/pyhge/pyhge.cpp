@@ -3,13 +3,12 @@
 
 #include "stdafx.h"
 
+extern void exportEnums();
 extern void exportHge();
 
-
-
-BOOST_PYTHON_MODULE(_hge)
-{
+BOOST_PYTHON_MODULE(_hge) {
     using namespace boost::python;
 
+    exportEnums();
     exportHge();
 }

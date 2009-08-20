@@ -50,42 +50,43 @@ public:
         m_pHGE->System_Snapshot(filename);
     }
 
-	virtual void CALL System_SetStateBool(hgeBoolState state, bool value) {
-
+	virtual void System_SetStateBool(hgeBoolState state, bool value) {
+        m_pHGE->System_SetState(state, value);
     }
 
-	virtual void CALL System_SetStateFunc(hgeFuncState state, hgeCallback value) {
-
+	virtual void System_SetStateFunc(hgeFuncState state, hgeCallback value) {
+        m_pHGE->System_SetState(state, value);
     }
 
-	virtual void		CALL	System_SetStateHwnd  (hgeHwndState   state, HWND        value) {
-
+	virtual void System_SetStateHwnd(hgeHwndState state, HWND value) {
+        m_pHGE->System_SetState(state, value);
     }
 
-	virtual void		CALL	System_SetStateInt   (hgeIntState    state, int         value) {
-
+	virtual void System_SetStateInt(hgeIntState state, int value) {
+        m_pHGE->System_SetState(state, value);
     }
 
-	virtual void		CALL	System_SetStateString(hgeStringState state, const char *value) {
+	virtual void System_SetStateString(hgeStringState state, const char *value) {
+        m_pHGE->System_SetState(state, value);
     }
 
-	virtual bool		CALL	System_GetStateBool  (hgeBoolState   state) {
-        return false;
+	virtual bool System_GetStateBool(hgeBoolState   state) {
+        return m_pHGE->System_GetState(state);
     }
 
-	virtual hgeCallback	CALL	System_GetStateFunc  (hgeFuncState   state) {
+	virtual hgeCallback	System_GetStateFunc(hgeFuncState state) {
         return NULL;
     }
 
-	virtual HWND		CALL	System_GetStateHwnd  (hgeHwndState   state) {
-        return 0;
+	virtual HWND System_GetStateHwnd(hgeHwndState state) {
+        return m_pHGE->System_GetState(state);
     }
 
-	virtual int			CALL	System_GetStateInt   (hgeIntState    state) {
-        return 0;
+	virtual int	System_GetStateInt(hgeIntState state) {
+        return m_pHGE->System_GetState(state);
     }
 
-	virtual const char*	CALL	System_GetStateString(hgeStringState state) {
+	virtual const char*	System_GetStateString(hgeStringState state) {
         return NULL;
     }
 	

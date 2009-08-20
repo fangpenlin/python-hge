@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)..\..\hge\lib\vc\hge.lib $(SolutionDir)..\..\hge\lib\vc\hgehelp.lib"
-				OutputFile="$(SolutionDir)\_hge.pyd"
+				OutputFile="$(SolutionDir)..\python\src\_hge.pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\hge\lib\vc&quot;"
 				GenerateDebugInformation="true"
@@ -138,7 +138,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)..\..\hge\lib\vc\hge.lib $(SolutionDir)..\..\hge\lib\vc\hgehelp.lib"
-				OutputFile="$(SolutionDir)\_hge.pyd"
+				OutputFile="$(SolutionDir)..\python\src\_hge.pyd"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\hge\lib\vc&quot;"
 				GenerateDebugInformation="true"
@@ -179,26 +179,8 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\dllmain.cpp"
+				RelativePath=".\enum.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\hge.cpp"

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "headers.h"
 
 void exposeConstants() {
     using namespace boost::python;

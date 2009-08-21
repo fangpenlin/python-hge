@@ -1,7 +1,7 @@
 #ifndef DATA_TYPES_H_INCLUDED
 #define DATA_TYPES_H_INCLUDED
 
-#include "stdafx.h"
+#include "headers.h"
 
 class PyHgeVertex : public hgeVertex {
 public:

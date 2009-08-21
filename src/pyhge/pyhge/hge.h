@@ -1,7 +1,7 @@
 #ifndef PYHGE_H_INCLUDED
 #define PYHGE_H_INCLUDED
 
-#include "stdafx.h"
+#include "headers.h"
 #include "callback.h"
 #include "data_types.h"
 

@@ -1,5 +1,5 @@
-#include "stdafx.h"
-#include "pyhge.h"
+#include "headers.h"
+#include "hge.h"
 
 void exposeHge() {
     using namespace boost::python;

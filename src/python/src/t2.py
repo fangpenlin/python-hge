@@ -13,18 +13,20 @@ def main():
     def frameFunc():
         if hge.Input_GetKeyState(_hge.HGEK_ESCAPE):
             return True
+        
+        v = 0.5
         if hge.Input_GetKeyState(_hge.HGEK_UP):
             for i in range(4):
-                quad.getV(i).y -= 0.1
+                quad.getV(i).y -= v
         if hge.Input_GetKeyState(_hge.HGEK_DOWN):
             for i in range(4):
-                quad.getV(i).y += 0.1
+                quad.getV(i).y += v
         if hge.Input_GetKeyState(_hge.HGEK_LEFT):
             for i in range(4):
-                quad.getV(i).x -= 0.1
+                quad.getV(i).x -= v
         if hge.Input_GetKeyState(_hge.HGEK_RIGHT):
             for i in range(4):
-                quad.getV(i).x += 0.1
+                quad.getV(i).x += v
         return False
     
     hge.System_SetStateString(_hge.HGE_LOGFILE, "t2.log");

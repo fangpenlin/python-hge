@@ -46,7 +46,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -122,7 +122,7 @@
 				PreprocessorDefinitions="BOOST_PYTHON_STATIC_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -183,44 +183,24 @@
 				>
 			</File>
 			<File
-				RelativePath=".\constants.cpp"
+				RelativePath=".\expose_constants.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\data_types.cpp"
+				RelativePath=".\expose_data_types.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\enum.cpp"
+				RelativePath=".\expose_enum.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\hge.cpp"
+				RelativePath=".\expose_hge.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\pyhge.cpp"
+				RelativePath=".\python.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -237,15 +217,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pyhge.h"
+				RelativePath=".\headers.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\targetver.h"
+				RelativePath=".\hge.h"
 				>
 			</File>
 		</Filter>
@@ -255,10 +231,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

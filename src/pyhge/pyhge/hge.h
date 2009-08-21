@@ -20,49 +20,50 @@ public:
             // throw
         }
     }
-    virtual ~PyHGE() {
+    ~PyHGE() {
     
     }
 
-	virtual	void Release() {
+	void Release() {
         m_pHGE->Release();
         m_pHGE = NULL;
     }
 
-	virtual bool System_Initiate() {
+	bool System_Initiate() {
         return m_pHGE->System_Initiate();
     }
 
-	virtual void System_Shutdown() {
+	void System_Shutdown() {
         m_pHGE->System_Shutdown();
     }
 
-	virtual bool System_Start() {
+	bool System_Start() {
         Callback::m_pCallback = &m_Callback;
         return m_pHGE->System_Start();
     }
 
-    virtual boost::python::str System_GetErrorMessage() {
+    boost::python::str System_GetErrorMessage() {
         return boost::python::str(static_cast<const char *>(m_pHGE->System_GetErrorMessage()));
     }
 
-	virtual	void System_Log(const char *format, ...) {
+    // TODO
+	void System_Log(const char *format, ...) {
 
     }
 
-	virtual bool System_Launch(const char *url) {
+	bool System_Launch(const char *url) {
         return m_pHGE->System_Launch(url);
     }
 
-	virtual void System_Snapshot(const char *filename=0) {
+	void System_Snapshot(const char *filename=0) {
         m_pHGE->System_Snapshot(filename);
     }
 
-	virtual void System_SetStateBool(int state, bool value) {
+	void System_SetStateBool(int state, bool value) {
         m_pHGE->System_SetState(static_cast<hgeBoolState>(state), value);
     }
 
-    virtual void System_SetStateFunc(int state, boost::python::object value) {
+    void System_SetStateFunc(int state, boost::python::object value) {
         hgeFuncState funcState = static_cast<hgeFuncState>(state);
         switch(funcState) {
             case HGE_FRAMEFUNC:
@@ -92,302 +93,302 @@ public:
         }
     }
 
-	virtual void System_SetStateHwnd(int state, HWND value) {
+	void System_SetStateHwnd(int state, HWND value) {
         m_pHGE->System_SetState(static_cast<hgeHwndState>(state), value);
     }
 
-	virtual void System_SetStateInt(int state, int value) {
+	void System_SetStateInt(int state, int value) {
         m_pHGE->System_SetState(static_cast<hgeIntState>(state), value);
     }
 
-	virtual void System_SetStateString(int state, const char *value) {
+	void System_SetStateString(int state, const char *value) {
         m_pHGE->System_SetState(static_cast<hgeStringState>(state), value);
     }
 
-	virtual bool System_GetStateBool(hgeBoolState   state) {
+	bool System_GetStateBool(hgeBoolState   state) {
         return m_pHGE->System_GetState(state);
     }
 
-	virtual hgeCallback	System_GetStateFunc(hgeFuncState state) {
+	hgeCallback	System_GetStateFunc(hgeFuncState state) {
         return NULL;
     }
 
-	virtual HWND System_GetStateHwnd(hgeHwndState state) {
+	HWND System_GetStateHwnd(hgeHwndState state) {
         return m_pHGE->System_GetState(state);
     }
 
-	virtual int	System_GetStateInt(hgeIntState state) {
+	int	System_GetStateInt(hgeIntState state) {
         return m_pHGE->System_GetState(state);
     }
 
-    virtual boost::python::str System_GetStateString(hgeStringState state) {
+    boost::python::str System_GetStateString(hgeStringState state) {
         return boost::python::str(m_pHGE->System_GetState(state));
     }
 	
     // TODO
-	virtual void* Resource_Load(const char *filename, DWORD *size=0) {
+	void* Resource_Load(const char *filename, DWORD *size=0) {
         return NULL;
     }
 
     // TODO
-	virtual void Resource_Free(void *res) {
+	void Resource_Free(void *res) {
     }
 
-	virtual bool Resource_AttachPack(const char *filename, const char *password=0) {
+	bool Resource_AttachPack(const char *filename, const char *password=0) {
         return m_pHGE->Resource_AttachPack(filename, password);
     }
 
-	virtual void Resource_RemovePack(const char *filename) {
+	void Resource_RemovePack(const char *filename) {
         m_pHGE->Resource_RemovePack(filename);
     }
 
-	virtual void Resource_RemoveAllPacks() {
+	void Resource_RemoveAllPacks() {
         m_pHGE->Resource_RemoveAllPacks();
     }
 
-    virtual boost::python::str Resource_MakePath(const char *filename=0) {
+    boost::python::str Resource_MakePath(const char *filename=0) {
         return boost::python::str(static_cast<const char*>(m_pHGE->Resource_MakePath(filename)));
     }
 
-	virtual boost::python::str Resource_EnumFiles(const char *wildcard=0) {
+	boost::python::str Resource_EnumFiles(const char *wildcard=0) {
         return boost::python::str(static_cast<const char*>(m_pHGE->Resource_EnumFiles(wildcard)));
     }
 
-	virtual boost::python::str Resource_EnumFolders(const char *wildcard=0) {
+	boost::python::str Resource_EnumFolders(const char *wildcard=0) {
         return boost::python::str(static_cast<const char*>(m_pHGE->Resource_EnumFolders(wildcard)));
     }
 
-	virtual	void Ini_SetInt(const char *section, const char *name, int value) {
+	void Ini_SetInt(const char *section, const char *name, int value) {
         m_pHGE->Ini_SetInt(section, name, value);
     }
 
-	virtual	int	Ini_GetInt(const char *section, const char *name, int def_val) {
+	int	Ini_GetInt(const char *section, const char *name, int def_val) {
         return m_pHGE->Ini_GetInt(section, name, def_val);
     }
 
-	virtual	void Ini_SetFloat(const char *section, const char *name, float value) {
+	void Ini_SetFloat(const char *section, const char *name, float value) {
         m_pHGE->Ini_SetFloat(section, name, value);
     }
 
-	virtual	float Ini_GetFloat(const char *section, const char *name, float def_val) {
+	float Ini_GetFloat(const char *section, const char *name, float def_val) {
         return m_pHGE->Ini_GetFloat(section, name, def_val);
     }
 
-	virtual	void Ini_SetString(const char *section, const char *name, const char *value) {
+	void Ini_SetString(const char *section, const char *name, const char *value) {
         return m_pHGE->Ini_SetString(section, name, value);
     }
 
-    virtual	boost::python::str Ini_GetString(const char *section, const char *name, const char *def_val) {
+    boost::python::str Ini_GetString(const char *section, const char *name, const char *def_val) {
         return boost::python::str(static_cast<const char*>(m_pHGE->Ini_GetString(section, name, def_val)));
     }
 
-	virtual void Random_Seed(int seed=0) {
+	void Random_Seed(int seed=0) {
         m_pHGE->Random_Seed(seed);
     }
 
-	virtual int Random_Int(int min, int max) {
+	int Random_Int(int min, int max) {
         return m_pHGE->Random_Int(min, max);
     }
 
-	virtual float Random_Float(float min, float max) {
+	float Random_Float(float min, float max) {
         return m_pHGE->Random_Float(min, max);
     }
 
-	virtual float Timer_GetTime() {
+	float Timer_GetTime() {
         return m_pHGE->Timer_GetTime();
     }
 
-	virtual float Timer_GetDelta() {
+	float Timer_GetDelta() {
         return m_pHGE->Timer_GetDelta();
     }
 
-	virtual int Timer_GetFPS() {
+	int Timer_GetFPS() {
         return m_pHGE->Timer_GetFPS();
     }
 
-	virtual HEFFECT Effect_Load(const char *filename, DWORD size=0) {
+	HEFFECT Effect_Load(const char *filename, DWORD size=0) {
         return m_pHGE->Effect_Load(filename, size);
     }
 
-	virtual void Effect_Free(HEFFECT eff) {
+	void Effect_Free(HEFFECT eff) {
         m_pHGE->Effect_Free(eff);
     }
 
-	virtual HCHANNEL Effect_Play(HEFFECT eff) {
+	HCHANNEL Effect_Play(HEFFECT eff) {
         return m_pHGE->Effect_Play(eff);
     }
 
-	virtual HCHANNEL Effect_PlayEx(HEFFECT eff, int volume=100, int pan=0, float pitch=1.0f, bool loop=false) {
+	HCHANNEL Effect_PlayEx(HEFFECT eff, int volume=100, int pan=0, float pitch=1.0f, bool loop=false) {
         return m_pHGE->Effect_PlayEx(eff, volume, pan, pitch, loop);
     }
 
-	virtual HMUSIC Music_Load(const char *filename, DWORD size=0) {
+	HMUSIC Music_Load(const char *filename, DWORD size=0) {
         return m_pHGE->Music_Load(filename, size);
     }
 
-	virtual void Music_Free(HMUSIC mus) {
+	void Music_Free(HMUSIC mus) {
         m_pHGE->Music_Free(mus);
     }
 
-	virtual HCHANNEL Music_Play(HMUSIC mus, bool loop, int volume = 100, int order = -1, int row = -1) {
+	HCHANNEL Music_Play(HMUSIC mus, bool loop, int volume = 100, int order = -1, int row = -1) {
         return m_pHGE->Music_Play(mus, loop, volume, order, row);
     }
 
-	virtual void Music_SetAmplification(HMUSIC music, int ampl) {
+	void Music_SetAmplification(HMUSIC music, int ampl) {
         m_pHGE->Music_SetAmplification(music, ampl);
     }
 
-	virtual int	Music_GetAmplification(HMUSIC music) {
+	int	Music_GetAmplification(HMUSIC music) {
         return m_pHGE->Music_GetAmplification(music);
     }
 
-	virtual int	Music_GetLength(HMUSIC music) {
+	int	Music_GetLength(HMUSIC music) {
         return m_pHGE->Music_GetLength(music);
     }
 
-	virtual void Music_SetPos(HMUSIC music, int order, int row) {
+	void Music_SetPos(HMUSIC music, int order, int row) {
         m_pHGE->Music_SetPos(music, order, row);
     }
 
-    virtual boost::python::tuple Music_GetPos(HMUSIC music) {
+    boost::python::tuple Music_GetPos(HMUSIC music) {
         int order;
         int row;
         bool result =  m_pHGE->Music_GetPos(music, &order, &row);
         return boost::python::make_tuple(result, order, row);
     }
 
-	virtual void Music_SetInstrVolume(HMUSIC music, int instr, int volume) {
+	void Music_SetInstrVolume(HMUSIC music, int instr, int volume) {
         m_pHGE->Music_SetInstrVolume(music, instr, volume);
     }
 
-	virtual int Music_GetInstrVolume(HMUSIC music, int instr) {
+	int Music_GetInstrVolume(HMUSIC music, int instr) {
         return m_pHGE->Music_GetInstrVolume(music, instr);
     }
 
-	virtual void Music_SetChannelVolume(HMUSIC music, int channel, int volume) {
+	void Music_SetChannelVolume(HMUSIC music, int channel, int volume) {
         m_pHGE->Music_SetChannelVolume(music, channel, volume);
     }
 
-	virtual int Music_GetChannelVolume(HMUSIC music, int channel) {
+	int Music_GetChannelVolume(HMUSIC music, int channel) {
         return m_pHGE->Music_GetChannelVolume(music, channel);
     }
 
-	virtual HSTREAM	Stream_Load(const char *filename, DWORD size=0) {
+	HSTREAM	Stream_Load(const char *filename, DWORD size=0) {
         return m_pHGE->Stream_Load(filename, size);
     }
 
-	virtual void Stream_Free(HSTREAM stream) {
+	void Stream_Free(HSTREAM stream) {
        m_pHGE->Stream_Free(stream);
     }
 	
-    virtual HCHANNEL Stream_Play(HSTREAM stream, bool loop, int volume = 100) {
+    HCHANNEL Stream_Play(HSTREAM stream, bool loop, int volume = 100) {
         return m_pHGE->Stream_Play(stream, loop, volume);
     }
 
-	virtual void Channel_SetPanning(HCHANNEL chn, int pan) {
+	void Channel_SetPanning(HCHANNEL chn, int pan) {
         m_pHGE->Channel_SetPanning(chn, pan);
     }
 
-	virtual void Channel_SetVolume(HCHANNEL chn, int volume) {
+	void Channel_SetVolume(HCHANNEL chn, int volume) {
         m_pHGE->Channel_SetVolume(chn, volume);
     }
 
-	virtual void Channel_SetPitch(HCHANNEL chn, float pitch) {
+	void Channel_SetPitch(HCHANNEL chn, float pitch) {
         m_pHGE->Channel_SetPitch(chn, pitch);
     }
 
-	virtual void Channel_Pause(HCHANNEL chn) {
+	void Channel_Pause(HCHANNEL chn) {
          m_pHGE->Channel_Pause(chn);
     }
 
-	virtual void Channel_Resume(HCHANNEL chn) {
+	void Channel_Resume(HCHANNEL chn) {
         m_pHGE->Channel_Resume(chn);
     }
 
-	virtual void Channel_Stop(HCHANNEL chn) {
+	void Channel_Stop(HCHANNEL chn) {
         m_pHGE->Channel_Stop(chn);
     }
 
-	virtual void Channel_PauseAll() {
+	void Channel_PauseAll() {
         m_pHGE->Channel_PauseAll();
     }
 
-	virtual void Channel_ResumeAll() {
+	void Channel_ResumeAll() {
         m_pHGE->Channel_ResumeAll();
     }
 
-	virtual void Channel_StopAll() {
+	void Channel_StopAll() {
         m_pHGE->Channel_StopAll();
     }
 
-	virtual bool Channel_IsPlaying(HCHANNEL chn) {
+	bool Channel_IsPlaying(HCHANNEL chn) {
         return m_pHGE->Channel_IsPlaying(chn);
     }
 
-	virtual float Channel_GetLength(HCHANNEL chn) {
+	float Channel_GetLength(HCHANNEL chn) {
         return m_pHGE->Channel_GetLength(chn);
     }
 
-	virtual float Channel_GetPos(HCHANNEL chn) {
+	float Channel_GetPos(HCHANNEL chn) {
         return m_pHGE->Channel_GetPos(chn);
     }
 	
-    virtual void Channel_SetPos(HCHANNEL chn, float fSeconds) {
+    void Channel_SetPos(HCHANNEL chn, float fSeconds) {
         m_pHGE->Channel_SetPos(chn, fSeconds);
     }
 
-	virtual void Channel_SlideTo(HCHANNEL channel, float time, int volume, int pan = -101, float pitch = -1) {
+	void Channel_SlideTo(HCHANNEL channel, float time, int volume, int pan = -101, float pitch = -1) {
         m_pHGE->Channel_SlideTo(channel, time, volume, pan, pitch);
     }
 
-	virtual bool Channel_IsSliding(HCHANNEL channel) {
+	bool Channel_IsSliding(HCHANNEL channel) {
         return m_pHGE->Channel_IsSliding(channel);
     }
 
-    virtual boost::python::tuple Input_GetMousePos() {
+    boost::python::tuple Input_GetMousePos() {
         float x;
         float y;
         m_pHGE->Input_GetMousePos(&x, &y);
         return boost::python::make_tuple(x, y);
     }
 
-	virtual void Input_SetMousePos(float x, float y) {
+	void Input_SetMousePos(float x, float y) {
         m_pHGE->Input_SetMousePos(x, y);
     }
 
-	virtual int Input_GetMouseWheel() {
+	int Input_GetMouseWheel() {
         return m_pHGE->Input_GetMouseWheel();
     }
 
-	virtual bool Input_IsMouseOver() {
+	bool Input_IsMouseOver() {
         return m_pHGE->Input_IsMouseOver();
     }
 
-	virtual bool Input_KeyDown(int key) {
+	bool Input_KeyDown(int key) {
         return m_pHGE->Input_KeyDown(key);
     }
 
-	virtual bool Input_KeyUp(int key) {
+	bool Input_KeyUp(int key) {
         return m_pHGE->Input_KeyUp(key);
     }
 
-	virtual bool Input_GetKeyState(int key) {
+	bool Input_GetKeyState(int key) {
         return m_pHGE->Input_GetKeyState(key);
     }
 
-    virtual boost::python::str Input_GetKeyName(int key) {
+    boost::python::str Input_GetKeyName(int key) {
         return boost::python::str(static_cast<const char*>(m_pHGE->Input_GetKeyName(key)));
     }
 
-	virtual int	Input_GetKey() {
+	int	Input_GetKey() {
         return m_pHGE->Input_GetKey();
     }
 
-	virtual int Input_GetChar() {
+	int Input_GetChar() {
         return m_pHGE->Input_GetChar();
     }
 
-    virtual boost::python::object Input_GetEvent() {
+    boost::python::object Input_GetEvent() {
         hgeInputEvent event;
         if(m_pHGE->Input_GetEvent(&event)) {
             boost::python::dict result;
@@ -404,86 +405,86 @@ public:
         return boost::python::object();
     }
 
-	virtual bool Gfx_BeginScene(HTARGET target=0) {
+	bool Gfx_BeginScene(HTARGET target=0) {
         return m_pHGE->Gfx_BeginScene(target);
     }
 
-	virtual void Gfx_EndScene() {
+	void Gfx_EndScene() {
         m_pHGE->Gfx_EndScene();
     }
 
-	virtual void Gfx_Clear(DWORD color) {
+	void Gfx_Clear(DWORD color) {
         m_pHGE->Gfx_Clear(color);
     }
 
-	virtual void Gfx_RenderLine(float x1, float y1, float x2, float y2, DWORD color=0xFFFFFFFF, float z=0.5f) {
+	void Gfx_RenderLine(float x1, float y1, float x2, float y2, DWORD color=0xFFFFFFFF, float z=0.5f) {
         m_pHGE->Gfx_RenderLine(x1, y1, x2, y2, color, z);
     }
 
 
-	virtual void Gfx_RenderTriple(const PyHgeTriple triple) {
+	void Gfx_RenderTriple(const PyHgeTriple triple) {
        m_pHGE->Gfx_RenderTriple(&triple);
     }
 
-	virtual void Gfx_RenderQuad(const PyHgeQuad quad) {
+	void Gfx_RenderQuad(const PyHgeQuad quad) {
        m_pHGE->Gfx_RenderQuad(&quad); 
     }
 	
     // TODO
-    virtual hgeVertex*	CALL	Gfx_StartBatch(int prim_type, HTEXTURE tex, int blend, int *max_prim) {
+    hgeVertex*	CALL	Gfx_StartBatch(int prim_type, HTEXTURE tex, int blend, int *max_prim) {
         return NULL;
     }
 
-	virtual void Gfx_FinishBatch(int nprim) {
+	void Gfx_FinishBatch(int nprim) {
         m_pHGE->Gfx_FinishBatch(nprim); 
     }
 
-	virtual void Gfx_SetClipping(int x=0, int y=0, int w=0, int h=0) {
+	void Gfx_SetClipping(int x=0, int y=0, int w=0, int h=0) {
         m_pHGE->Gfx_SetClipping(x, y, w, h); 
     }
 
-	virtual void Gfx_SetTransform(float x=0, float y=0, float dx=0, float dy=0, float rot=0, float hscale=0, float vscale=0) {
+	void Gfx_SetTransform(float x=0, float y=0, float dx=0, float dy=0, float rot=0, float hscale=0, float vscale=0) {
         m_pHGE->Gfx_SetTransform(x, y, dx, dy, rot, hscale, vscale); 
     }
 
-	virtual HTARGET	Target_Create(int width, int height, bool zbuffer) {
+	HTARGET	Target_Create(int width, int height, bool zbuffer) {
         return m_pHGE->Target_Create(width, height, zbuffer); 
     }
 
-	virtual void Target_Free(HTARGET target) {
+	void Target_Free(HTARGET target) {
         return m_pHGE->Target_Free(target); 
     }
 
-	virtual HTEXTURE Target_GetTexture(HTARGET target) {
+	HTEXTURE Target_GetTexture(HTARGET target) {
         return m_pHGE->Target_GetTexture(target); 
     }
 
-	virtual HTEXTURE Texture_Create(int width, int height) {
+	HTEXTURE Texture_Create(int width, int height) {
         return m_pHGE->Texture_Create(width, height);
     }
 
-	virtual HTEXTURE Texture_Load(const char *filename, DWORD size=0, bool bMipmap=false) {
+	HTEXTURE Texture_Load(const char *filename, DWORD size=0, bool bMipmap=false) {
         return m_pHGE->Texture_Load(filename, size, bMipmap);
     }
 
-	virtual void Texture_Free(HTEXTURE tex) {
+	void Texture_Free(HTEXTURE tex) {
         m_pHGE->Texture_Free(tex);
     }
 
-	virtual int	Texture_GetWidth(HTEXTURE tex, bool bOriginal=false) {
+	int	Texture_GetWidth(HTEXTURE tex, bool bOriginal=false) {
         return m_pHGE->Texture_GetWidth(tex, bOriginal);
     }
 
-	virtual int	Texture_GetHeight(HTEXTURE tex, bool bOriginal=false) {
+	int	Texture_GetHeight(HTEXTURE tex, bool bOriginal=false) {
         return m_pHGE->Texture_GetHeight(tex, bOriginal);
     }
 
     // TODO
-	virtual DWORD* Texture_Lock(HTEXTURE tex, bool bReadOnly=true, int left=0, int top=0, int width=0, int height=0) {
+	DWORD* Texture_Lock(HTEXTURE tex, bool bReadOnly=true, int left=0, int top=0, int width=0, int height=0) {
         return NULL;
     }
 
-	virtual void Texture_Unlock(HTEXTURE tex) {
+	void Texture_Unlock(HTEXTURE tex) {
         return m_pHGE->Texture_Unlock(tex);
     }
 };

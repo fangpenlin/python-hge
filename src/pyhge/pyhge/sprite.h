@@ -43,6 +43,18 @@ public:
         GetFlip(&bX, &bY);
         return boost::python::make_tuple(bX, bY);
     }
+
+    boost::python::tuple GetBoundingBoxTuple(float x, float y) {
+        hgeRect rect;
+        GetBoundingBox(x, y, &rect);
+        return boost::python::make_tuple(rect.x1, rect.y1, rect.x2, rect.y2);
+    }
+
+    boost::python::tuple GetBoundingBoxExTuple(float x, float y, float rot, float hscale, float vscale) {
+        hgeRect rect;
+        GetBoundingBoxEx(x, y, rot, hscale, vscale, &rect);
+        return boost::python::make_tuple(rect.x1, rect.y1, rect.x2, rect.y2);
+    }
 };
 
 

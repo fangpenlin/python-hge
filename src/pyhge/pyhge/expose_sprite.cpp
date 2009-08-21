@@ -29,7 +29,7 @@ void exposeSprite() {
         .def("GetWidth", &PyHgeSprite::GetWidth)
         .def("GetHeight", &PyHgeSprite::GetHeight)
 
-        // TODO
-
+        .def("GetBoundingBox", &PyHgeSprite::GetBoundingBoxTuple)
+        .def("GetBoundingExBox", &PyHgeSprite::GetBoundingBoxExTuple)
     ;
 }

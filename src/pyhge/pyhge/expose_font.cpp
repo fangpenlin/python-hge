@@ -7,9 +7,8 @@ void exposeFont() {
     class_<PyHgeFont, boost::noncopyable>("hgeFont", init<const char *, bool>())
 		.def("Render", &PyHgeFont::Render)
 
-        // TODO
-		//.def("printf", &PyHgeFont::printf)
-		//.def("printfb", &PyHgeFont::printfb)
+		.def("printf", &PyHgeFont::printf)
+		.def("printfb", &PyHgeFont::printfb)
         
 		.def("SetColor", &PyHgeFont::SetColor)
 		.def("SetZ", &PyHgeFont::SetZ)

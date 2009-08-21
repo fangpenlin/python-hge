@@ -15,5 +15,5 @@ BOOST_PYTHON_MODULE(_hge) {
     exposeDataTypes();
     exposeHge();
     exposeSprite();
-	exposeFont();
+    exposeFont();
 }

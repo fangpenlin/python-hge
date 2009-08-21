@@ -5,6 +5,7 @@ extern void exposeConstants();
 extern void exposeDataTypes();
 extern void exposeHge();
 extern void exposeSprite();
+extern void exposeFont();
 
 BOOST_PYTHON_MODULE(_hge) {
     using namespace boost::python;
@@ -14,4 +15,5 @@ BOOST_PYTHON_MODULE(_hge) {
     exposeDataTypes();
     exposeHge();
     exposeSprite();
+	exposeFont();
 }

@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\expose_font.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\expose_hge.cpp"
 				>
 			</File>
@@ -220,6 +224,10 @@
 			</File>
 			<File
 				RelativePath=".\data_types.h"
+				>
+			</File>
+			<File
+				RelativePath=".\font.h"
 				>
 			</File>
 			<File

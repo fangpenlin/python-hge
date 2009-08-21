@@ -3,13 +3,21 @@ Created on 2009/8/21
 
 @author: Stubborn
 '''
+import math
+
 import _hge
 
 def main():
     hge = _hge.HGE(_hge.HGE_VERSION)
     
     quad = None
+    sprite = None
     
+    # use list, because scope problem
+    radians = [0]
+    x = [100]
+    y = [100]
+
     def frameFunc():
         if hge.Input_GetKeyState(_hge.HGEK_ESCAPE):
             return True
@@ -17,19 +25,20 @@ def main():
         v = 0.5
         if hge.Input_GetKeyState(_hge.HGEK_UP):
             for i in range(4):
-                quad.getV(i).y -= v
+                y[0] -= v
         if hge.Input_GetKeyState(_hge.HGEK_DOWN):
             for i in range(4):
-                quad.getV(i).y += v
+                y[0] += v
         if hge.Input_GetKeyState(_hge.HGEK_LEFT):
             for i in range(4):
-                quad.getV(i).x -= v
+                x[0] -= v
         if hge.Input_GetKeyState(_hge.HGEK_RIGHT):
             for i in range(4):
-                quad.getV(i).x += v
+                x[0] += v
+        
+        radians[0] += math.pi/720
+                
         return False
-    
-    hge.System_SetStateString(_hge.HGE_LOGFILE, "t2.log");
     
     def renderFunc():
         # Begin rendering quads.
@@ -43,6 +52,8 @@ def main():
         # Render quads here. This time just
         # one of them will serve our needs.
         hge.Gfx_RenderQuad(quad);
+        
+        sprite.RenderEx(x[0], y[0], radians[0], 1.0, 0.0)
     
         # End rendering and update the screen
         hge.Gfx_EndScene();
@@ -72,6 +83,11 @@ def main():
         v3 = _hge.hgeVertex(0, 200, 0, 0xFFFFA000, 0, 1)
         
         quad = _hge.hgeQuad((v0, v1, v2, v3), texture, blend)
+    
+        w = hge.Texture_GetWidth(texture, False)
+        h = hge.Texture_GetHeight(texture, False)
+        sprite = _hge.hgeSprite(texture, 0, 0, w, h)
+        sprite.SetHotSpot(w*0.5, h*0.5)
     
         if not hge.System_Start():
             print hge.System_GetErrorMessage()

@@ -1,12 +1,10 @@
-// pyhge.cpp : Defines the exported functions for the DLL application.
-//
-
 #include "headers.h"
 
 extern void exposeEnums();
 extern void exposeConstants();
 extern void exposeDataTypes();
 extern void exposeHge();
+extern void exposeSprite();
 
 BOOST_PYTHON_MODULE(_hge) {
     using namespace boost::python;
@@ -15,4 +13,5 @@ BOOST_PYTHON_MODULE(_hge) {
     exposeConstants();
     exposeDataTypes();
     exposeHge();
+    exposeSprite();
 }

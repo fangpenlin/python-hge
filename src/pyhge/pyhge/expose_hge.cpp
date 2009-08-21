@@ -17,6 +17,13 @@ void exposeHge() {
         .def("System_SetStateInt", &PyHGE::System_SetStateInt)
         .def("System_SetStateString", &PyHGE::System_SetStateString)
 
+        .def("Resource_AttachPack", &PyHGE::Resource_AttachPack)
+        .def("Resource_RemovePack", &PyHGE::Resource_RemovePack)
+        .def("Resource_RemoveAllPacks", &PyHGE::Resource_RemoveAllPacks)
+        .def("Resource_MakePath", &PyHGE::Resource_MakePath)
+        .def("Resource_EnumFiles", &PyHGE::Resource_EnumFiles)
+        .def("Resource_EnumFolders", &PyHGE::Resource_EnumFolders)
+
         .def("Ini_SetInt", &PyHGE::Ini_SetInt)
         .def("Ini_GetInt", &PyHGE::Ini_GetInt)
         .def("Ini_SetFloat", &PyHGE::Ini_SetFloat)
@@ -79,6 +86,7 @@ void exposeHge() {
         .def("Input_GetKeyName", &PyHGE::Input_GetKeyName)
         .def("Input_GetKey", &PyHGE::Input_GetKey)
         .def("Input_GetChar", &PyHGE::Input_GetChar)
+        .def("Input_GetEvent", &PyHGE::Input_GetEvent)
 
         .def("Gfx_BeginScene", &PyHGE::Gfx_BeginScene)
         .def("Gfx_EndScene", &PyHGE::Gfx_EndScene)
@@ -90,11 +98,15 @@ void exposeHge() {
         .def("Gfx_SetClipping", &PyHGE::Gfx_RenderQuad)
         .def("Gfx_SetTransform", &PyHGE::Gfx_RenderQuad)
 
+        .def("Target_Create", &PyHGE::Target_Create)
+        .def("Target_Free", &PyHGE::Target_Free)
+        .def("Target_GetTexture", &PyHGE::Target_GetTexture)
+
         .def("Texture_Create", &PyHGE::Texture_Create)
         .def("Texture_Load", &PyHGE::Texture_Load)
         .def("Texture_Free", &PyHGE::Texture_Free)
         .def("Texture_GetWidth", &PyHGE::Texture_GetWidth)
         .def("Texture_GetHeight", &PyHGE::Texture_GetHeight)
-        
+        .def("Texture_Unlock", &PyHGE::Texture_Unlock)
     ;
 }

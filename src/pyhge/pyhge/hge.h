@@ -120,38 +120,41 @@ public:
         return m_pHGE->System_GetState(state);
     }
 
-	virtual const char*	System_GetStateString(hgeStringState state) {
-        return NULL;
+    virtual boost::python::str System_GetStateString(hgeStringState state) {
+        return boost::python::str(m_pHGE->System_GetState(state));
     }
 	
-	virtual void*		Resource_Load(const char *filename, DWORD *size=0) {
+    // TODO
+	virtual void* Resource_Load(const char *filename, DWORD *size=0) {
         return NULL;
     }
 
-	virtual void		Resource_Free(void *res) {
+    // TODO
+	virtual void Resource_Free(void *res) {
     }
 
-	virtual bool		Resource_AttachPack(const char *filename, const char *password=0) {
-        return false;
+	virtual bool Resource_AttachPack(const char *filename, const char *password=0) {
+        return m_pHGE->Resource_AttachPack(filename, password);
     }
 
-	virtual void		Resource_RemovePack(const char *filename) {
+	virtual void Resource_RemovePack(const char *filename) {
+        m_pHGE->Resource_RemovePack(filename);
     }
 
-	virtual void		Resource_RemoveAllPacks() {
-
+	virtual void Resource_RemoveAllPacks() {
+        m_pHGE->Resource_RemoveAllPacks();
     }
 
-	virtual char*		Resource_MakePath(const char *filename=0) {
-        return NULL;
+    virtual boost::python::str Resource_MakePath(const char *filename=0) {
+        return boost::python::str(static_cast<const char*>(m_pHGE->Resource_MakePath(filename)));
     }
 
-	virtual char*		Resource_EnumFiles(const char *wildcard=0) {
-        return NULL;
+	virtual boost::python::str Resource_EnumFiles(const char *wildcard=0) {
+        return boost::python::str(static_cast<const char*>(m_pHGE->Resource_EnumFiles(wildcard)));
     }
 
-	virtual char*		Resource_EnumFolders(const char *wildcard=0) {
-        return NULL;
+	virtual boost::python::str Resource_EnumFolders(const char *wildcard=0) {
+        return boost::python::str(static_cast<const char*>(m_pHGE->Resource_EnumFolders(wildcard)));
     }
 
 	virtual	void Ini_SetInt(const char *section, const char *name, int value) {
@@ -384,9 +387,21 @@ public:
         return m_pHGE->Input_GetChar();
     }
 
-    // TODO
-	virtual bool Input_GetEvent(hgeInputEvent *event) {
-        return false;
+    virtual boost::python::object Input_GetEvent() {
+        hgeInputEvent event;
+        if(m_pHGE->Input_GetEvent(&event)) {
+            boost::python::dict result;
+            result["type"] = event.type;
+            result["key"] = event.key;
+            result["flags"] = event.flags;
+            result["chr"] = event.chr;
+            result["wheel"] = event.wheel;
+            result["x"] = event.x;
+            result["y"] = event.y;
+            return result;
+        }
+        // return None
+        return boost::python::object();
     }
 
 	virtual bool Gfx_BeginScene(HTARGET target=0) {
@@ -431,16 +446,16 @@ public:
         m_pHGE->Gfx_SetTransform(x, y, dx, dy, rot, hscale, vscale); 
     }
 
-	virtual HTARGET		CALL	Target_Create(int width, int height, bool zbuffer) {
-        return 0;
+	virtual HTARGET	Target_Create(int width, int height, bool zbuffer) {
+        return m_pHGE->Target_Create(width, height, zbuffer); 
     }
 
-	virtual void		CALL	Target_Free(HTARGET target) {
-    
+	virtual void Target_Free(HTARGET target) {
+        return m_pHGE->Target_Free(target); 
     }
 
-	virtual HTEXTURE	CALL	Target_GetTexture(HTARGET target) {
-        return 0;
+	virtual HTEXTURE Target_GetTexture(HTARGET target) {
+        return m_pHGE->Target_GetTexture(target); 
     }
 
 	virtual HTEXTURE Texture_Create(int width, int height) {
@@ -460,7 +475,7 @@ public:
     }
 
 	virtual int	Texture_GetHeight(HTEXTURE tex, bool bOriginal=false) {
-        return m_pHGE->Texture_GetWidth(tex, bOriginal);
+        return m_pHGE->Texture_GetHeight(tex, bOriginal);
     }
 
     // TODO
@@ -468,9 +483,8 @@ public:
         return NULL;
     }
 
-    // TODO
-	virtual void		CALL	Texture_Unlock(HTEXTURE tex) {
-    
+	virtual void Texture_Unlock(HTEXTURE tex) {
+        return m_pHGE->Texture_Unlock(tex);
     }
 };
 

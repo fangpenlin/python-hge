@@ -65,6 +65,7 @@
 				OutputFile="$(SolutionDir)..\python\src\_hge.pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\hge\lib\vc&quot;"
+				IgnoreDefaultLibraryNames="LIBC.LIB"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -141,6 +142,7 @@
 				OutputFile="$(SolutionDir)..\python\src\_hge.pyd"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\hge\lib\vc&quot;"
+				IgnoreDefaultLibraryNames="LIBC.LIB"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -199,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\expose_sprite.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\python.cpp"
 				>
 			</File>
@@ -222,6 +228,10 @@
 			</File>
 			<File
 				RelativePath=".\hge.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sprite.h"
 				>
 			</File>
 		</Filter>

@@ -14,9 +14,6 @@ void exposeDataTypes() {
     ;
     
     class_<PyHgeTriple>("hgeTriple", init<boost::python::tuple, HTEXTURE, int>())
-        //.add_property("v0", &PyHgeTriple::getV0)
-        //.add_property("v1", &PyHgeTriple::getV1, return_value_policy<copy_non_const_reference>())
-        //.add_property("v2", &PyHgeTriple::getV2, return_value_policy<reference_existing_object>())
         .def_readwrite("tex", &PyHgeTriple::tex)
         .def_readwrite("blend", &PyHgeTriple::blend)
         .def("getV", &PyHgeTriple::getV, return_value_policy<reference_existing_object>())
@@ -29,5 +26,4 @@ void exposeDataTypes() {
         .def("getV", &PyHgeQuad::getV, return_value_policy<reference_existing_object>())
         .def("setV", &PyHgeQuad::setV)
     ;
-    
 }
